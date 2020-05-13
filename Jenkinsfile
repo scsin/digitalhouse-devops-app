@@ -5,7 +5,7 @@ pipeline {
     environment {
 
         NODE_ENV="development"
-        AWS_ACCESS_KEY="A"
+        AWS_ACCESS_KEY=credentials('aws_access_key')
         AWS_SECRET_ACCESS_KEY="B"
         AWS_SDK_LOAD_CONFIG="0"
         BUCKET_NAME="digitalhouse-gitgirls-dev-sara"
@@ -50,9 +50,7 @@ pipeline {
                             print "Environment will be : ${env.NODE_ENV}"
                             print "$AWS_ACCESS_KEY"
                             print "$AWS_SECRET_ACCESS_KEY"
-                            print "env.BUCKET_NAME"
-                            print "${env.BUCKET_NAME}"
-                            print ${env.BUCKET_NAME}
+                            print "$env.BUCKET_NAME"
                             docker.build("digitalhouse-devops:latest")
                         }
                     }

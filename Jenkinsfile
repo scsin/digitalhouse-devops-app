@@ -48,6 +48,11 @@ pipeline {
                     steps {
                         script {
                             print "Environment will be : ${env.NODE_ENV}"
+                            print "$AWS_ACCESS_KEY"
+                            print "$AWS_SECRET_ACCESS_KEY"
+                            print "env.BUCKET_NAME"
+                            print "${env.BUCKET_NAME}"
+                            print ${env.BUCKET_NAME}
                             docker.build("digitalhouse-devops:latest")
                         }
                     }
@@ -89,11 +94,6 @@ pipeline {
 
             steps { 
                 script {
-                    print "$AWS_ACCESS_KEY"
-                    print "$AWS_SECRET_ACCESS_KEY"
-                    print "env.BUCKET_NAME"
-                    print "${env.BUCKET_NAME}"
-                    print ${env.BUCKET_NAME}
                     if(env.GIT_BRANCH=='origin/dev'){
  
                         docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:docker-images-pi') {

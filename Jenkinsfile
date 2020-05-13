@@ -6,7 +6,7 @@ pipeline {
 
         NODE_ENV="development"
         AWS_ACCESS_KEY=credentials('aws_access_key')
-        AWS_SECRET_ACCESS_KEY="B"
+        AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
         AWS_SDK_LOAD_CONFIG="0"
         BUCKET_NAME="digitalhouse-gitgirls-dev-sara"
         REGION="us-east-1" 
@@ -50,7 +50,7 @@ pipeline {
                             print "Environment will be : ${env.NODE_ENV}"
                             print "$AWS_ACCESS_KEY"
                             print "$AWS_SECRET_ACCESS_KEY"
-                            print "$env.BUCKET_NAME"
+                            print "$BUCKET_NAME"
                             docker.build("digitalhouse-devops:latest")
                         }
                     }
@@ -105,7 +105,7 @@ pipeline {
                         //sh "docker run -d --name app1 -p 8030:3000 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
                         withCredentials([[$class:'AmazonWebServicesCredentialsBinding' 
                             , credentialsId: 'homologs3']]) {
-                        sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=${env.BUCKET_NAME} 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
+                        sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=$BUCKET_NAME 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
                         }
                         
                         sh "docker ps"

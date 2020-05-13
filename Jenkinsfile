@@ -5,8 +5,8 @@ pipeline {
     environment {
 
         NODE_ENV="development"
-        AWS_ACCESS_KEY=credentials('aws_access_key')
-        AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
+        AWS_ACCESS_KEY=""
+        AWS_SECRET_ACCESS_KEY=""
         AWS_SDK_LOAD_CONFIG="0"
         BUCKET_NAME="digitalhouse-gitgirls-dev-sara"
         REGION="us-east-1" 
@@ -56,7 +56,6 @@ pipeline {
                 stage('Test image') {
                     steps {
                         script {
-
                             docker.image("digitalhouse-devops:latest").withRun('-p 8030:3000') { c ->
                                 sh 'docker ps'
                                 sh 'sleep 10'
@@ -90,6 +89,11 @@ pipeline {
 
             steps { 
                 script {
+                    print "$AWS_ACCESS_KEY"
+                    print "$AWS_SECRET_ACCESS_KEY"
+                    print "env.BUCKET_NAME"
+                    print "${env.BUCKET_NAME}"
+                    print ${env.BUCKET_NAME}
                     if(env.GIT_BRANCH=='origin/dev'){
  
                         docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:docker-images-pi') {
@@ -103,7 +107,7 @@ pipeline {
                         //sh "docker run -d --name app1 -p 8030:3000 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
                         withCredentials([[$class:'AmazonWebServicesCredentialsBinding' 
                             , credentialsId: 'homologs3']]) {
-                        sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=${env.BUCKET_NAME} 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
+                        sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=${env.BUCKET_NAME} 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
                         }
                         
                         sh "docker ps"

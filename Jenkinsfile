@@ -5,10 +5,10 @@ pipeline {
     environment {
 
         NODE_ENV="development"
-        AWS_ACCESS_KEY=""
-        AWS_SECRET_ACCESS_KEY=""
+        AWS_ACCESS_KEY=credentials('aws_access_key')
+        AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
         AWS_SDK_LOAD_CONFIG="0"
-        BUCKET_NAME="app-digital"
+        BUCKET_NAME="digitalhouse-gitgirls-dev-sara"
         REGION="us-east-1" 
         PERMISSION=""
         ACCEPTED_FILE_FORMATS_ARRAY=""
@@ -103,7 +103,7 @@ pipeline {
                         //sh "docker run -d --name app1 -p 8030:3000 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
                         withCredentials([[$class:'AmazonWebServicesCredentialsBinding' 
                             , credentialsId: 'homologs3']]) {
-                        sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=digitalhouse-gitgirls-dev-sara 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
+                        sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=${env.BUCKET_NAME} 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
                         }
                         
                         sh "docker ps"
@@ -131,10 +131,10 @@ pipeline {
                         environment {
 
                             NODE_ENV="production"
-                            AWS_ACCESS_KEY="123456"
-                            AWS_SECRET_ACCESS_KEY="asdfghjkkll"
+                            AWS_ACCESS_KEY=credentials('aws_access_key')
+                            AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
                             AWS_SDK_LOAD_CONFIG="0"
-                            BUCKET_NAME="app-digital"
+                            BUCKET_NAME="digitalhouse-gitgirls-prod-sara"
                             REGION="us-east-1" 
                             PERMISSION=""
                             ACCEPTED_FILE_FORMATS_ARRAY=""
@@ -152,7 +152,7 @@ pipeline {
                         //sh "docker run -d --name app1 -p 8030:3000 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
                         withCredentials([[$class:'AmazonWebServicesCredentialsBinding' 
                             , credentialsId: 'prods3']]) {
-                          sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=producao -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=digitalhouse-gitgirls-prod-sara 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
+                          sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=producao -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=${env.BUCKET_NAME} 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
                         }
                         sh "docker ps"
                         sh 'sleep 10'

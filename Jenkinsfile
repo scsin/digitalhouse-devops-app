@@ -5,8 +5,8 @@ pipeline {
     environment {
 
         NODE_ENV="development"
-        AWS_ACCESS_KEY=""
-        AWS_SECRET_ACCESS_KEY=""
+        AWS_ACCESS_KEY="A"
+        AWS_SECRET_ACCESS_KEY="B"
         AWS_SDK_LOAD_CONFIG="0"
         BUCKET_NAME="digitalhouse-gitgirls-dev-sara"
         REGION="us-east-1" 

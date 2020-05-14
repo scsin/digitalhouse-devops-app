@@ -59,7 +59,7 @@ pipeline {
                         echo 'Push latest para AWS ECR'
                         script {
                             docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:docker-images-pi') {
-                                docker.image('digitalhouse-devops').push()
+                                docker.image('docker-images-pi').push()
                             }
                         }
                     }
@@ -79,7 +79,7 @@ pipeline {
                     if(env.GIT_BRANCH=='origin/dev'){
  
                         docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:docker-images-pi') {
-                            docker.image('digitalhouse-devops').pull()
+                            docker.image('docker-images-pi').pull()
                         }
 
                         echo 'Deploy para Desenvolvimento'
@@ -102,53 +102,53 @@ pipeline {
 
         }
 
-//         stage('Deploy to Producao') {
-//             agent {  
-//                 node {
-//                     label 'Prod'
-//                 }
-//             }
+        stage('Deploy to Producao') {
+            agent {  
+                node {
+                    label 'Prod'
+                }
+            }
 
-//             steps { 
-//                 sh 'hostname'
-//                 script {
-//                     if(env.GIT_BRANCH=='origin/prod'){
+            steps { 
+                sh 'hostname'
+                script {
+                    if(env.GIT_BRANCH=='origin/prod'){
  
-//                         environment {
+                        environment {
 
-//                             NODE_ENV="production"
-//                             AWS_ACCESS_KEY=credentials('aws_access_key')
-//                             AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
-//                             AWS_SDK_LOAD_CONFIG="0"
-//                             BUCKET_NAME="digitalhouse-gitgirls-prod-sara"
-//                             REGION="us-east-1" 
-//                             PERMISSION=""
-//                             ACCEPTED_FILE_FORMATS_ARRAY=""
-//                         }
+                            NODE_ENV="production"
+                            AWS_ACCESS_KEY=credentials('aws_access_key')
+                            AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
+                            AWS_SDK_LOAD_CONFIG="0"
+                            BUCKET_NAME="digitalhouse-gitgirls-prod-sara"
+                            REGION="us-east-1" 
+                            PERMISSION=""
+                            ACCEPTED_FILE_FORMATS_ARRAY=""
+                        }
 
 
-//                         docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:docker-images-pi') {
-//                             docker.image('digitalhouse-devops').pull()
-//                         }
+                        docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:docker-images-pi') {
+                            docker.image('docker-images-pi').pull()
+                        }
 
-//                         echo 'Deploy para Producao'
-//                         sh "hostname"
-//                         sh "docker stop app1"
-//                         sh "docker rm app1"
-//                         //sh "docker run -d --name app1 -p 8030:3000 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
-//                         withCredentials([[$class:'AmazonWebServicesCredentialsBinding' 
-//                             , credentialsId: 'prods3']]) {
-//                           sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=producao -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=${env.BUCKET_NAME} 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
-//                         }
-//                         sh "docker ps"
-//                         sh 'sleep 10'
-//                         sh 'curl http://127.0.0.1:8030/api/v1/healthcheck'
+                        echo 'Deploy para Producao'
+                        sh "hostname"
+                        sh "docker stop app1"
+                        sh "docker rm app1"
+                        //sh "docker run -d --name app1 -p 8030:3000 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
+                        withCredentials([[$class:'AmazonWebServicesCredentialsBinding' 
+                            , credentialsId: 'producaos3']]) {
+                          sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=producao -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=${env.BUCKET_NAME} 086217385171.dkr.ecr.us-east-1.amazonaws.com/docker-images-pi:latest"
+                        }
+                        sh "docker ps"
+                        sh 'sleep 10'
+                        sh 'curl http://127.0.0.1:8030/api/v1/healthcheck'
 
-//                     }
-//                 }
-//             }
+                    }
+                }
+            }
 
-//         }
+        }
 
-//     }
-// }
+    }
+}

@@ -4,7 +4,7 @@ NodeApp que faz upload em um bucket s3 para as alunas da Academia Neon DevOps
 
 # Excecução (localhost)
 * `$ docker-compose up -d`
-* acessar [aws_ec2]/3000
+* acessar localhost:3000
 
 # Execução para o jenkins
 * **Instruções:** 

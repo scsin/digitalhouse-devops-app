@@ -33,7 +33,7 @@ pipeline {
                 stage('Build image'){       
                     steps {
                         script {
-                            print "Environment will be : ${env.NODE_ENV}"
+                            print "Environment will be : $NODE_ENV"
                             docker.build("digitalhouse-devops:latest")
                         }
                     }

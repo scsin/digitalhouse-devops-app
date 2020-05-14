@@ -58,7 +58,7 @@ pipeline {
                     steps {
                         echo 'Push latest para AWS ECR'
                         script {
-                            docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:docker-images-pi') {
+                            docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:sarasin') {
                                 docker.image('docker-images-pi').push()
                             }
                         }
@@ -78,7 +78,7 @@ pipeline {
                 script {
                     if(env.GIT_BRANCH=='origin/dev'){
  
-                        docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:docker-images-pi') {
+                        docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:sarasin') {
                             docker.image('docker-images-pi').pull()
                         }
 
@@ -127,7 +127,7 @@ pipeline {
                         }
 
 
-                        docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:docker-images-pi') {
+                        docker.withRegistry('https://086217385171.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:sarasin') {
                             docker.image('docker-images-pi').pull()
                         }
 

@@ -4,18 +4,18 @@ pipeline {
 
     environment {
 
-        NODE_ENV="homolog"
+        NODE_ENV="dev"
         
-        APP_PREFIX = "docker-images-pi"
+        APP_PREFIX = "docker-images-zumims20"
         APP_IMAGE = "${APP_PREFIX}:${BUILD_NUMBER}"
         APP_CONTAINER = "${APP_PREFIX}-${BUILD_NUMBER}"
         PORT_IMAGE='3000'
         PORT_CONTAINER="8030"
         REGISTRY_ADDRESS = "086217385171.dkr.ecr.us-east-1.amazonaws.com"
 
-        CREDENTIALID="awsdvops"
+        CREDENTIALID="aws_credential"
         CREDENTIAL_ECR="ecr:us-east-1:${CREDENTIALID}"
-        BUCK_NAME="${APP_PREFIX}-${NODE_ENV}"
+        BUCK_NAME="zumims20-dev"
         CREDENTIALID_S3="credential-s3-${BUCK_NAME}"
         
         REGION="us-east-1" 
@@ -96,16 +96,16 @@ pipeline {
             }
         }
 
-        stage('Deploy to Homolog') {
+        stage('Deploy to Dev') {
             agent {  
-                label 'homolog'
+                label 'dev'
             }
             when {
                 environment name: "IS_BUILD_VERSION", value: "YES"
             }
             steps { 
                 script {
-                    echo 'Deploy para Homologacao'
+                    echo 'Deploy to Develop'
 
                     docker.withRegistry("https://${REGISTRY_ADDRESS}", "${CREDENTIAL_ECR}") {
                         docker.image("${APP_IMAGE}").pull()

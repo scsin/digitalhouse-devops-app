@@ -4,17 +4,17 @@ pipeline {
 
     environment {
 
-        NODE_ENV="production"
+        NODE_ENV="prod"
         
-        APP_PREFIX = "docker-images-pi"
+        APP_PREFIX = "docker-images-zumims20"
 
         PORT_IMAGE='3000'
         PORT_CONTAINER="8030"
         REGISTRY_ADDRESS = "086217385171.dkr.ecr.us-east-1.amazonaws.com"
 
-        CREDENTIALID="awsdvops"
+        CREDENTIALID="aws_credential"
         CREDENTIAL_ECR="ecr:us-east-1:${CREDENTIALID}"
-        BUCK_NAME="${APP_PREFIX}-${NODE_ENV}"
+        BUCK_NAME="zumims20-prod"
         CREDENTIALID_S3="credential-s3-${BUCK_NAME}"
         
         REGION="us-east-1"
@@ -54,7 +54,7 @@ pipeline {
             steps { 
                 script {
 
-                    echo 'Deploy para Production'
+                    echo 'Deploy to Production'
 
                     docker.withRegistry("https://${REGISTRY_ADDRESS}", "${CREDENTIAL_ECR}") {
                         docker.image("${APP_PREFIX}").pull()

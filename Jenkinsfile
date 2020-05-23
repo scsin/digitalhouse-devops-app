@@ -16,7 +16,7 @@ pipeline {
         CREDENTIALID="aws_credential"
         CREDENTIAL_ECR="ecr:us-east-1:${CREDENTIALID}"
         BUCK_NAME="zumims20-dev"
-        CREDENTIALID_S3="credential-s3-${BUCK_NAME}"
+        CREDENTIALID_S3="s3_dev"
         
         REGION="us-east-1" 
         IS_BUILD_VERSION="YES"
